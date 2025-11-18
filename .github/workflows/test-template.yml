@@ -1,0 +1,37 @@
+name: Simple Test Template
+
+on:
+  workflow_call:
+    inputs:
+      message:
+        description: "A message to display"
+        required: false
+        type: string
+        default: "Hello from template!"
+      run-tests:
+        description: "Whether to run tests"
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Display message
+        run: echo "${{ inputs.message }}"
+      
+      - name: Show repository info
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+      
+      - name: List files
+        run: ls -la
+      
+      - name: Run tests
+        if: ${{ inputs.run-tests }}
+        run: echo "Running tests... ✓"
