@@ -1,0 +1,23 @@
+name: Read Config and Run
+
+on:
+  workflow_call:
+
+jobs:
+  read-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Read .ci-config.yml
+        id: config
+        run: |
+          # Read config file logic
+          ...
+      
+      - name: Call Simple Test Template
+        uses: ./.github/workflows/test-template.yml
+        with:
+          message: ${{ steps.config.outputs.message }}
+          run-tests: ${{ steps.config.outputs.run_tests == 'true' }}
